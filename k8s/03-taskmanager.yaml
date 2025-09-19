@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: taskmanager
-          image: phuntshowangdi/task-manager:4a044c1b0badaa5ff089e97e6eb236f74c72722d
+          image: phuntshowangdi/task-manager:07b33dc783e4da0f50ef98474e01ed5acaf206bf
           ports:
             - containerPort: 8000
               name: http
@@ -43,7 +43,6 @@ spec:
               value: "kubernetes-secret-key-02220162" # 📝 Replace 02220162
             - name: FLASK_ENV
               value: "production"
-
 ---
 # -----------------------
 # Service
@@ -65,3 +64,7 @@ spec:
       targetPort: http # Maps to containerPort: 8000
       protocol: TCP
   type: ClusterIP # Change to LoadBalancer for external access
+  template:
+    spec:
+      containers:
+        - image: phuntshowangdi/task-manager:07b33dc783e4da0f50ef98474e01ed5acaf206bf
