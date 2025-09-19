@@ -23,6 +23,7 @@ spec:
       labels:
         app: taskmanager
         version: v1
+<<<<<<< HEAD
     spec:
       containers:
         - name: taskmanager
@@ -32,11 +33,24 @@ spec:
               name: http
           env:
             - name: DATABASE_URL
+=======
+    spec: # Pod specification
+      containers: # Containers in each Pod
+        - name: taskmanager # Container name
+          # Docker image from your CI/CD pipeline (update with your DockerHub username)
+          image: phuntshowangdi/task-manager:beafe7be90bbad09420c59f70b6ae2d20ec888c9
+          ports: # Ports exposed by container
+            - containerPort: 8000 # Port the Flask app listens on
+              name: http # Named port for Service reference
+          env: # Environment variables
+            - name: DATABASE_URL # Database connection string
+>>>>>>> f21779bc85aceaf6d626a1b5e9a800e05eee72c8
               value: "postgresql://myuser:uWhSZwv54wXv1T7F@10.104.0.6:5432/02220162"
             - name: SECRET_KEY
               value: "kubernetes-secret-key-02220162" # 📝 Replace 02220162
             - name: FLASK_ENV
               value: "production"
+<<<<<<< HEAD
 
 ---
 # Service - Provides stable network access to the Task Manager Pods
@@ -58,3 +72,11 @@ spec:
       name: http
   type: ClusterIP
   # Change to LoadBalancer for external access
+=======
+---
+spec:
+  template:
+    spec:
+      containers:
+        - image: phuntshowangdi/task-manager:beafe7be90bbad09420c59f70b6ae2d20ec888c9
+>>>>>>> f21779bc85aceaf6d626a1b5e9a800e05eee72c8
