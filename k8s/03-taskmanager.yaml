@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: taskmanager
-          image: phuntshowangdi/task-manager:07b33dc783e4da0f50ef98474e01ed5acaf206bf
+          image: phuntshowangdi/task-manager:361c1ccc6e9f360465f47588fe1d7d9c01c127b9
           ports:
             - containerPort: 8000
               name: http
@@ -67,4 +67,4 @@ spec:
   template:
     spec:
       containers:
-        - image: phuntshowangdi/task-manager:07b33dc783e4da0f50ef98474e01ed5acaf206bf
+        - image: phuntshowangdi/task-manager:361c1ccc6e9f360465f47588fe1d7d9c01c127b9
