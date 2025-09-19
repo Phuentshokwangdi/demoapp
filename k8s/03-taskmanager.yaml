@@ -3,40 +3,58 @@
 # 📝 IMPORTANT: Replace 02220162 with your actual student number (e.g., 02220162)
 
 # Deployment - Manages the Task Manager application Pods
-apiVersion: apps/v1 # API version for Deployment resources
-kind: Deployment # Resource type - manages application replicas
-metadata: # Information about this Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: taskmanager-deployment
   namespace: "02220162" # 📝 Replace 02220162 with your number
-  labels: # Labels for organizing resources
+  labels:
     app: taskmanager
     component: frontend
     version: v1
     student: "02220162" # 📝 Replace with your student number
-spec: # Desired state specification
-  replicas: 2 # Run 2 copies for high availability and load distribution
-  selector: # How to find Pods managed by this Deployment
-    matchLabels: # Pods must have these labels
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
       app: taskmanager
-  template: # Template for creating new Pods
-    metadata: # Labels applied to each Pod
+  template:
+    metadata:
       labels:
-        app: taskmanager # Must match selector above
+        app: taskmanager
         version: v1
-    spec: # Pod specification
-      containers: # Containers in each Pod
-        - name: taskmanager # Container name
-          # Docker image from your CI/CD pipeline (update with your DockerHub username)
+    spec:
+      containers:
+        - name: taskmanager
           image: phuntshowangdi/task-manager:b3e399b8dfd91ab056d4832796f3384d1e30e443
-          ports: # Ports exposed by container
-            - containerPort: 8000 # Port the Flask app listens on
-              name: http # Named port for Service reference
-          env: # Environment variables
-            - name: DATABASE_URL # Database connection string
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: DATABASE_URL
               value: "postgresql://myuser:uWhSZwv54wXv1T7F@10.104.0.6:5432/02220162"
-            - name: SECRET_KEY # Flask secret key
+            - name: SECRET_KEY
               value: "kubernetes-secret-key-02220162" # 📝 Replace 02220162
             - name: FLASK_ENV
               value: "production"
----
 
+---
+# Service - Provides stable network access to the Task Manager Pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: taskmanager-service
+  namespace: "02220162" # 📝 Replace 02220162 with your number
+  labels:
+    app: taskmanager
+    student: "02220162" # 📝 Replace with your student number
+spec:
+  selector:
+    app: taskmanager
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  type: ClusterIP
+  # Change to LoadBalancer for external access
