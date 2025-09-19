@@ -7,7 +7,7 @@ apiVersion: apps/v1 # API version for Deployment resources
 kind: Deployment # Resource type - manages application replicas
 metadata: # Information about this Deployment
   name: taskmanager-deployment
-  namespace: 02220162 # 📝 Replace 02220162 with your number
+  namespace: "02220162" # 📝 Replace 02220162 with your number
   labels: # Labels for organizing resources
     app: taskmanager
     component: frontend
@@ -39,27 +39,4 @@ spec: # Desired state specification
             - name: FLASK_ENV
               value: "production"
 ---
-# Service - Provides stable network access to the Task Manager Pods
-apiVersion: v1 # API version for Service resources
-kind: Service # Resource type - network abstraction
-metadata: # Service information
-  name: taskmanager-service
-  namespace: 02220162 # 📝 Replace 02220162 with your number
-  labels:
-    app: taskmanager
-    student: "02220162" # 📝 Replace with your student number
-spec: # Service specification
-  selector: # Target Pods with these labels
-    app: taskmanager
-  ports: # Port configuration
-    - port: 80 # Port exposed by the Service (external)
-      targetPort: http # Port on target Pods (refers to named port)
-      protocol: TCP # Network protocol
-      name: http # Name for this port mapping
-  type: ClusterIP # Service type - accessible only within cluster
-  # Change to LoadBalancer for external access
 
-  template:
-    spec:
-      containers:
-        - image: phuntshowangdi/task-manager:b3e399b8dfd91ab056d4832796f3384d1e30e443
