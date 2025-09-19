@@ -1,8 +1,14 @@
+# =====================================================
 # Task Manager Application Deployment and Service
-# This file creates the main application deployment and exposes it via a service
-# 📝 IMPORTANT: Replace 02220162 with your actual student number (e.g., 02220162)
+# This manifest creates the main application Deployment
+# and exposes it via a Kubernetes Service.
+#
+# 📝 IMPORTANT: Replace 02220162 with your actual student number
+# =====================================================
 
-# Deployment - Manages the Task Manager application Pods
+# -----------------------
+# Deployment
+# -----------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,7 +20,7 @@ metadata:
     version: v1
     student: "02220162" # 📝 Replace with your student number
 spec:
-  replicas: 2
+  replicas: 2 # Run 2 Pods for high availability
   selector:
     matchLabels:
       app: taskmanager
@@ -39,7 +45,9 @@ spec:
               value: "production"
 
 ---
-# Service - Provides stable network access to the Task Manager Pods
+# -----------------------
+# Service
+# -----------------------
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,9 +60,8 @@ spec:
   selector:
     app: taskmanager
   ports:
-    - port: 80
-      targetPort: http
+    - name: http
+      port: 80 # Service port
+      targetPort: http # Maps to containerPort: 8000
       protocol: TCP
-      name: http
-  type: ClusterIP
-  # Change to LoadBalancer for external access
+  type: ClusterIP # Change to LoadBalancer for external access
